@@ -5,15 +5,14 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import Navigation from './components/navigation/Navigation';
 import Cursor from './components/cursor/Cursor';
-import ScrollIndicator from './components/ui/ScrollIndicator';
 import OpeningSequence from './components/opening/OpeningSequence';
 
-import HeroScene from './scenes/HeroScene';
-import MovementScene from './scenes/MovementScene';
-import SpaceScene from './scenes/SpaceScene';
-import TypographicScene from './scenes/TypographicScene';
-import StillnessScene from './scenes/StillnessScene';
-import OutroScene from './scenes/OutroScene';
+import HeroLab from './scenes/HeroLab';
+import LayersLab from './scenes/LayersLab';
+import StaggerLab from './scenes/StaggerLab';
+import TypoLab from './scenes/TypoLab';
+import SvgLab from './scenes/SvgLab';
+import FinaleLab from './scenes/FinaleLab';
 import { useReducedMotion } from './hooks/useReducedMotion';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -28,7 +27,7 @@ export const App: React.FC = () => {
     if (prefersReducedMotion) return;
 
     const lenis = new Lenis({
-      duration: 1.3,
+      duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
       touchMultiplier: 1.5,
@@ -47,7 +46,7 @@ export const App: React.FC = () => {
 
     const timer = setTimeout(() => {
       ScrollTrigger.refresh();
-    }, 400);
+    }, 350);
 
     return () => {
       clearTimeout(timer);
@@ -64,7 +63,7 @@ export const App: React.FC = () => {
     if (element) {
       if (lenisRef.current) {
         lenisRef.current.scrollTo(element, {
-          duration: 1.6,
+          duration: 1.4,
           easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         });
       } else {
@@ -76,7 +75,7 @@ export const App: React.FC = () => {
   const handleScrollToTop = () => {
     if (lenisRef.current) {
       lenisRef.current.scrollTo(0, {
-        duration: 2.0,
+        duration: 1.8,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       });
     } else {
@@ -85,43 +84,37 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#F4F1EA] text-[#11110F] selection:bg-[#A65D45] selection:text-[#F4F1EA]">
-      {/* Subtle organic film grain texture overlay */}
-      <div className="grain-overlay" />
-
-      {/* Opening sequence */}
+    <div className="relative min-h-screen bg-[#F5F5F0] text-[#111111] selection:bg-[#B8FF3D] selection:text-[#111111]">
+      {/* Rapid minimal opening sequence */}
       {!isOpeningDone && (
         <OpeningSequence onComplete={() => setIsOpeningDone(true)} />
       )}
 
-      {/* Interactive custom cursor */}
+      {/* Interactive custom cursor with acid-lime expansion */}
       <Cursor />
 
-      {/* Subtle hairline scroll progress indicator */}
-      <ScrollIndicator />
-
-      {/* Floating editorial navigation */}
+      {/* Floating minimal navigation */}
       <Navigation onNavigate={handleNavigate} />
 
-      {/* Continuous ÉLAN Exhibition Scenes */}
+      {/* Continuous Parallax Motion Laboratory Scenes */}
       <main id="main-content" className="relative z-10 w-full overflow-hidden">
-        {/* Section 01: Hero - Between Worlds (6 Parallax Layers) */}
-        <HeroScene onEnter={() => handleNavigate('#movement')} />
+        {/* Experiment 01: Hero - Parallax Typography & Geometric Depth (7 Layers) */}
+        <HeroLab onExplore={() => handleNavigate('#layers')} />
 
-        {/* Section 02: Movement (Monolithic Brutalist Architecture Parallax) */}
-        <MovementScene />
+        {/* Experiment 02: Layer Separation Collage */}
+        <LayersLab />
 
-        {/* Section 03: Space (Full-width Architectural Image & Clipping Parallax) */}
-        <SpaceScene />
+        {/* Experiment 03: Staggered Shapes (Black Contrast Section) */}
+        <StaggerLab />
 
-        {/* Section 04: Form (Typographic Parallax with 4 Independent Coordinates) */}
-        <TypographicScene />
+        {/* Experiment 04: Typographic Motion (Space, Motion, Depth) */}
+        <TypoLab />
 
-        {/* Section 05: Stillness (Suspended Kinetic Sculpture & Quiet Depth) */}
-        <StillnessScene />
+        {/* Experiment 05: SVG Motion & Path Interpolation */}
+        <SvgLab />
 
-        {/* Outro: See you on the other side & Restart CTA */}
-        <OutroScene onRestart={handleScrollToTop} />
+        {/* Experiment 06: Conclusion & Replay Experience */}
+        <FinaleLab onReplay={handleScrollToTop} />
       </main>
     </div>
   );

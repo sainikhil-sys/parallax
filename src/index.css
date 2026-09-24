@@ -8,14 +8,14 @@
   }
 
   html {
-    background-color: #F4F1EA;
-    color: #11110F;
-    font-family: 'Manrope', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: #F5F5F0;
+    color: #111111;
+    font-family: 'Inter', 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
   }
 
   body {
-    background-color: #F4F1EA;
-    color: #11110F;
+    background-color: #F5F5F0;
+    color: #111111;
     min-height: 100vh;
     overflow-x: hidden;
     position: relative;
@@ -40,43 +40,30 @@
 }
 
 @layer utilities {
-  /* Editorial refined typography scale */
-  .font-serif-display {
-    font-family: 'Instrument Serif', 'DM Serif Display', Georgia, serif;
-    font-weight: 400;
+  /* Contemporary Grotesk Typography Scales */
+  .text-grotesk-hero {
+    font-size: clamp(4.2rem, 11.5vw, 13.5rem);
+    line-height: 0.86;
+    letter-spacing: -0.05em;
+    font-weight: 800;
   }
 
-  .text-display-hero {
-    font-family: 'Instrument Serif', 'DM Serif Display', Georgia, serif;
-    font-size: clamp(4.2rem, 10.5vw, 11rem);
-    line-height: 0.92;
-    letter-spacing: -0.03em;
-    font-weight: 400;
+  .text-grotesk-heading {
+    font-size: clamp(3rem, 8vw, 9rem);
+    line-height: 0.88;
+    letter-spacing: -0.045em;
+    font-weight: 800;
   }
 
-  .text-display-section {
-    font-family: 'Instrument Serif', 'DM Serif Display', Georgia, serif;
-    font-size: clamp(3.2rem, 7.5vw, 8rem);
+  .text-grotesk-title {
+    font-size: clamp(2rem, 5vw, 5rem);
     line-height: 0.95;
-    letter-spacing: -0.025em;
-    font-weight: 400;
-  }
-
-  .text-display-word {
-    font-family: 'Instrument Serif', 'DM Serif Display', Georgia, serif;
-    font-size: clamp(4rem, 13vw, 14rem);
-    line-height: 0.85;
     letter-spacing: -0.035em;
-    font-weight: 400;
+    font-weight: 700;
   }
 
   .perspective-1200 {
     perspective: 1200px;
-    perspective-origin: center;
-  }
-
-  .perspective-800 {
-    perspective: 800px;
     perspective-origin: center;
   }
 
@@ -87,45 +74,40 @@
   .backface-hidden {
     backface-visibility: hidden;
   }
-
-  .depth-blur-subtle {
-    filter: blur(1.5px);
-  }
-
-  .depth-blur-md {
-    filter: blur(4px);
-  }
-}
-
-/* Subtle Warm Film Grain Texture */
-.grain-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  content: "";
-  opacity: 0.024;
-  pointer-events: none;
-  z-index: 9990;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
 /* Custom Minimalist Scrollbar */
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #F4F1EA;
+  background: #F5F5F0;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #DDD8CB;
+  background: #D8D8D0;
+  border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #A65D45;
+  background: #B8FF3D;
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .parallax-layer {
+    transform: none !important;
+  }
 }
 
 /* Reduced Motion */
