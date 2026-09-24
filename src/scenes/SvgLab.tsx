@@ -43,21 +43,23 @@ export const SvgLab: React.FC = () => {
         0
       );
 
-      // 2. Follower circle traverses along path progression
-      if (followerRef.current) {
-        tl.to(
-          followerRef.current,
-          {
-            motionPath: {
-              path: pathRef.current,
-              align: pathRef.current,
-              alignOrigin: [0.5, 0.5],
-            },
-            ease: 'none',
+      // 2. Follower circle traverses along path progression via native SVG getPointAtLength
+      const progressObj = { value: 0 };
+      tl.to(
+        progressObj,
+        {
+          value: 1,
+          ease: 'none',
+          onUpdate: () => {
+            if (pathRef.current && followerRef.current) {
+              const pt = pathRef.current.getPointAtLength(progressObj.value * pathLength);
+              followerRef.current.setAttribute('cx', pt.x.toString());
+              followerRef.current.setAttribute('cy', pt.y.toString());
+            }
           },
-          0
-        );
-      }
+        },
+        0
+      );
 
       // 3. Staggered concentric rings scaling and morphing
       const rings = ringsGroupRef.current?.querySelectorAll('circle');

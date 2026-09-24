@@ -1,51 +1,69 @@
-# LIMINAL — BETWEEN WORLDS
-### An Interactive Study of Depth and Multi-Axis Parallax
+# PARALLAX / Interactive Motion Laboratory
+### An Experimental Study of Typography, Shapes & Depth
 **Submission for Techfest IIT Bombay Web-Development Competition**
 
 ---
 
-## 🌌 Overview
+## ✦ Design Philosophy
 
-**LIMINAL — BETWEEN WORLDS** is an award-quality, experimental interactive parallax experience built for the Techfest IIT Bombay web development challenge. Rather than a conventional marketing landing page or a collection of static cards, LIMINAL is structured as a continuous digital art installation where the user travels through physical layers of depth and perspective.
+Inspired by the visual clarity, playful minimalism, and motion craftsmanship of contemporary interactive design benchmarks (such as [animejs.com](https://animejs.com/)), **PARALLAX / Interactive Motion Laboratory** is designed around a singular principle:
+
+> **TYPOGRAPHY + SHAPES + MOTION + WHITESPACE.**
+> *Simple at rest, spectacular in motion.*
+
+All cyberpunk tropes, neon cyan glows, HUD radars, and visual clutter have been stripped away. In their place is an editorial, gallery-caliber design laboratory featuring an asymmetrical 12-column grid, generous off-white breathing room, contemporary grotesk typography, and clean vector geometry.
+
+---
+
+## 🎨 Palette & Visual System
+
+- **Primary Background**: `#F5F5F0` (Warm off-white)
+- **Primary Text**: `#111111` (Near-black)
+- **Secondary**: `#666666` (Clean neutral gray)
+- **Playful Accent**: `#B8FF3D` (Acid / Lime Green)
+- **Secondary Accent**: `#FF6B4A` (Warm Coral)
+- **Contrast Section**: `#111111` (Pure deep black)
+- **Hairline Borders**: `#E2E2DC`
 
 ---
 
 ## ⚡ Core Parallax Engine Architecture
 
-The website is engineered with a custom, high-performance parallax engine built on top of **GSAP ScrollTrigger** and **Lenis Virtual Scroll**:
+The experience satisfies the Techfest requirement through genuine, multi-tier, hardware-accelerated parallax:
 
-1. **Decoupled Multi-Tier Velocities**:
-   - Background celestial strata: `0.08x` - `0.15x`
-   - Atmospheric haze & corona glow: `0.18x` - `0.25x`
-   - Midground geometric architecture & pylons: `0.45x` - `0.65x`
-   - Subject focal cores: `0.75x` - `0.85x`
-   - Foreground structural elements & frame crossing: `1.15x` - `1.45x`
+1. **Decoupled Velocity Multipliers**:
+   - **Background Layer**: `0.08x` – `0.15x`
+   - **Midground Layer**: `0.35x` – `0.50x`
+   - **Content & Typography**: `0.70x` – `0.85x`
+   - **Foreground Camera Crossings**: `1.15x` – `1.35x`
 
 2. **Zero-Jitter Ticker Synchronization**:
-   - Lenis virtual smooth scrolling is directly piped into the GSAP ticker:
+   - **Lenis Smooth Scroll** is directly piped into the **GSAP ticker**:
      ```ts
      lenis.on('scroll', ScrollTrigger.update);
      gsap.ticker.add((time) => lenis.raf(time * 1000));
      gsap.ticker.lagSmoothing(0);
      ```
-   - Hardware-accelerated GPU transforms (`translate3d`, `scale`, `rotate`, `will-change`) prevent browser layout thrashing and maintain 120 FPS fluid motion.
+   - Hardware-accelerated GPU transforms (`translate3d`, `scale`, `rotate`) ensure continuous 60–120 FPS fluid motion.
 
-3. **Compound Interactive Physics**:
-   - **Mouse Gyro Perspective**: Real-time normalized cursor tracking (`smoothX`, `smoothY`) calculates interactive pitch, yaw, and lateral offsets on the portal core and interactive fragments.
-   - **Magnetic Button Pull**: Interactive magnetic buttons that physically follow the cursor with dual-spring damping.
-   - **Reduced Motion Support**: Automatic detection of `prefers-reduced-motion: reduce` gracefully switches intensive camera displacement to subtle, accessible transitions.
+3. **Motion Craftsmanship**:
+   - SVG path self-drawing via `getTotalLength()` and scrubbed `strokeDashoffset`.
+   - Native SVG coordinate tracking via `getPointAtLength()` following dynamic Bezier paths.
+   - Synchronous matrix grid staggering (`stagger: { grid: [6, 12], from: 'center' }`).
+   - Accessible reduced motion detection via `useReducedMotion()`.
 
 ---
 
-## 🏛️ Scene Breakdown
+## 🧪 Experiments Breakdown
 
-- **Opening Sequence**: A black cinematic sequence with the title `LIMINAL // AN INTERACTIVE STUDY OF DEPTH` and an expanding laser horizon line that reveals the space.
-- **Scene 01 — THE PORTAL**: 8 independent depth layers ranging from `0.08` to `1.30` parallax multipliers, featuring asymmetrical typography `BETWEEN WORLDS` and a mouse-reactive dimensional portal.
-- **Scene 02 — FRAGMENTS**: A 3D spatial field of floating artifacts with individual depth channels (`0.15x`, `0.40x`, `0.72x`, `1.30x`), interactive hover states, metadata telemetry, and custom Phosphor Icons.
-- **Scene 03 — THE VOID**: Monumental typographic parallax where `DEPTH` (slow: `0.25x`), `IS` (medium: `0.70x`), and `PERCEPTION.` (aggressive: `1.40x`) slide past one another at differential velocities.
-- **Scene 04 — DESCENT**: A vertical camera descent through 6 intersecting strata, including background stars, cyan fog, structural pylons, an expanding descending core (`0.85 -> 1.45`), and rapid foreground crossing beams.
-- **Scene 05 — SIGNAL**: Transition into a discovered tactical interface panel styled with shadcn/ui primitives (Badges, Progress, Separator, Tooltip, and Dialog modal) to inspect the spatial telemetry archive.
-- **Epilogue & Finale**: Converging horizon perspective rays collapsing inward, returning the giant typography `BETWEEN WORLDS` -> `[ END ]`, with a magnetic restart trigger and minimal footer.
+| Experiment | Title | Description & Interaction Mechanics |
+| :--- | :--- | :--- |
+| **01** | **Hero: Parallax Typography** | **7 Independent Layers**:<br>• Subtle background coordinate ticks (`0.08x`)<br>• Large acid-lime ring (`0.18x`)<br>• Thin SVG spline with coral point (`0.32x`)<br>• Organic morphing vector shape in acid lime (`0.48x`)<br>• Small geometric design nodes (`0.65x`)<br>• Monumental heading `MAKE THINGS MOVE.` (`0.85x`)<br>• Foreground geometric block crossing camera (`1.15x`) |
+| **02** | **Layer Separation Collage** | **Physical Collage Pulling Apart**:<br>• Acid-lime circle in deep background (`0.16vh`)<br>• Black geometric card tilting (`0.38vh`)<br>• Thin coral axis line rotating (`0.52vh`)<br>• Abstract vector graphic square (`0.68vh`)<br>• Heading `EVERYTHING HAS A DEPTH.` (`0.88vh`)<br>• High-velocity foreground plane crossing directly over typography (`1.35vh`) |
+| **03** | **Staggered Shapes** | **Black Contrast Section (`#111111`)**:<br>• Deep black field with heading `SCROLL CHANGES EVERYTHING.`<br>• 72 crisp graphic design elements (crosses, squares, circles, dashes) that synchronously scale, rotate (±180°), and translate based on scroll displacement using GSAP stagger |
+| **04** | **Typographic Motion** | **Poster-Scale Typography Choreography**:<br>• `SPACE`: Slow vertical drift (`30vh`)<br>• `MOTION`: Continuous horizontal displacement across the viewport (`-22vw`)<br>• `DEPTH`: Fast vertical sweep crossing behind/in front (`125vh`)<br>• Clipped vector viewport box with mathematical offset annotations |
+| **05** | **SVG Motion** | **Vector Precision Animation**:<br>• Self-drawing continuous cubic Bezier curve scrubbed by scroll<br>• Follower circle traversing dynamically along the path via native `getPointAtLength()`<br>• Concentric animated stagger rings in acid lime and warm coral |
+| **06** | **Conclusion & Replay** | **Minimal Final Section**:<br>• Heading `KEEP MOVING.`<br>• Quote: *"Good interaction should feel inevitable."*<br>• Magnetic `REPLAY EXPERIENCE →` button with Lenis smooth-glide back to top |
 
 ---
 
@@ -53,12 +71,12 @@ The website is engineered with a custom, high-performance parallax engine built 
 
 - **Framework**: React 19 + TypeScript (Strict Type Safety)
 - **Bundler & Tooling**: Vite 8
-- **Styling**: Tailwind CSS + Custom Fluid Typography Clamps (`clamp()`)
-- **Scroll Engine**: Lenis
-- **Animation Orchestration**: GSAP & GSAP ScrollTrigger
+- **Styling**: Tailwind CSS + Custom Fluid Clamps
+- **Smooth Scroll Engine**: Lenis
+- **Animation Choreography**: GSAP & GSAP ScrollTrigger
 - **Micro-Interactions**: Framer Motion
 - **Iconography**: Phosphor Icons (`@phosphor-icons/react`)
-- **UI System**: Tailored shadcn/ui component primitives
+- **Linter**: Oxlint (0 errors, 0 warnings across all files)
 
 ---
 
@@ -68,12 +86,9 @@ The website is engineered with a custom, high-performance parallax engine built 
 # 1. Install dependencies
 npm install
 
-# 2. Run local development server
+# 2. Start Vite development server
 npm run dev
 
 # 3. Build for production
 npm run build
-
-# 4. Preview production build
-npm run preview
 ```
