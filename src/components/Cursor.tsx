@@ -6,15 +6,15 @@ export const Cursor: React.FC = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [cursorText, setCursorText] = useState('');
   const [isVisible, setIsVisible] = useState(false);
-  const [isTouchDevice, setIsTouchDevice] = useState(true);
+  const [isTouchDevice] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.matchMedia('(pointer: coarse)').matches;
+    }
+    return true;
+  });
 
   useEffect(() => {
-    // Check if device has coarse pointer (touch device)
-    if (window.matchMedia('(pointer: coarse)').matches) {
-      setIsTouchDevice(true);
-      return;
-    }
-    setIsTouchDevice(false);
+    if (isTouchDevice) return;
 
     const onMouseMove = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
@@ -47,7 +47,7 @@ export const Cursor: React.FC = () => {
       document.body.removeEventListener('mouseleave', onMouseLeave);
       document.body.removeEventListener('mouseenter', onMouseEnter);
     };
-  }, [isVisible]);
+  }, [isVisible, isTouchDevice]);
 
   if (isTouchDevice || !isVisible) return null;
 

@@ -16,10 +16,11 @@ export function useScrollVelocity(): ScrollVelocityData {
   });
 
   const lastScrollY = useRef(0);
-  const lastTime = useRef(Date.now());
+  const lastTime = useRef(0);
   const smoothedVelocity = useRef(0);
 
   useEffect(() => {
+    lastTime.current = Date.now();
     let animId: number;
     let targetVelocity = 0;
     let currentDir: 1 | -1 | 0 = 0;

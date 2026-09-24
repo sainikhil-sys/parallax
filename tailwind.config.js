@@ -7,32 +7,33 @@ export default {
   theme: {
     extend: {
       colors: {
-        liminal: {
-          base: "#050505",
-          surface: "#0c0c0c",
-          card: "#121212",
-          elevated: "#181818",
-          border: "rgba(245, 245, 240, 0.08)",
-          "border-subtle": "rgba(245, 245, 240, 0.04)",
-          text: "#F5F5F0",
-          muted: "#858585",
-          dim: "#505050",
-          accent: "#00F0FF",
-          "accent-hover": "#38F4FF",
-          "accent-dim": "#00A8B3",
-          "accent-glow": "rgba(0, 240, 255, 0.18)",
+        elan: {
+          bg: "#F4F1EA",          // Warm ivory
+          surface: "#ECE8DE",     // Slightly deeper ivory for surfaces
+          border: "#DDD8CB",      // Subtle warm line
+          text: "#11110F",        // Soft black
+          muted: "#77736B",       // Muted warm gray
+          faint: "#A8A49C",       // Faint gray
+          dark: "#151613",        // Deep charcoal / near black
+          darkSurface: "#1D1E1B", // Dark surface
+          darkBorder: "rgba(244, 241, 234, 0.12)",
+          darkText: "#F4F1EA",    // Ivory text for dark sections
+          darkMuted: "#928E85",   // Muted for dark sections
+          terracotta: "#A65D45",  // Muted terracotta accent
+          olive: "#28352B",       // Deep olive secondary accent
         },
       },
       fontFamily: {
-        display: ['"Space Grotesk"', 'sans-serif'],
-        body: ['"Inter"', 'sans-serif'],
-        mono: ['"JetBrains Mono"', 'monospace'],
+        serif: ['"Instrument Serif"', '"DM Serif Display"', 'Georgia', 'serif'],
+        display: ['"Instrument Serif"', '"DM Serif Display"', 'Georgia', 'serif'],
+        sans: ['"Manrope"', '"Inter"', 'sans-serif'],
       },
       letterSpacing: {
         tighter: "-0.05em",
-        tight: "-0.03em",
-        widest: "0.25em",
-        ultra: "0.4em",
+        tight: "-0.02em",
+        normal: "0em",
+        wide: "0.06em",
+        widest: "0.18em",
       },
     },
   },

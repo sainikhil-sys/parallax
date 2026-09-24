@@ -1,21 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import MobileMenu from './MobileMenu';
-import { List } from '@phosphor-icons/react';
+import { motion, AnimatePresence } from 'framer-motion';
 
-export interface NavItem {
+export interface SectionItem {
   id: string;
-  number: string;
-  label: string;
+  num: string;
   title: string;
-  href: string;
+  subtitle: string;
 }
 
-const SECTIONS: NavItem[] = [
-  { id: 'portal', number: '01', label: '01', title: 'THE PORTAL', href: '#portal' },
-  { id: 'fragments', number: '02', label: '02', title: 'FRAGMENTS', href: '#fragments' },
-  { id: 'void', number: '03', label: '03', title: 'THE VOID', href: '#void' },
-  { id: 'descent', number: '04', label: '04', title: 'DESCENT', href: '#descent' },
-  { id: 'signal', number: '05', label: '05', title: 'SIGNAL', href: '#signal' },
+const SECTIONS: SectionItem[] = [
+  { id: 'hero', num: '01', title: 'Between Worlds', subtitle: 'Sculptural introduction' },
+  { id: 'movement', num: '02', title: 'Movement', subtitle: 'Architectural weight' },
+  { id: 'space', num: '03', title: 'Space', subtitle: 'Material & light' },
+  { id: 'typography', num: '04', title: 'Form', subtitle: 'Typographic depth' },
+  { id: 'stillness', num: '05', title: 'Stillness', subtitle: 'Kinetic balance' },
 ];
 
 interface NavigationProps {
@@ -23,116 +21,142 @@ interface NavigationProps {
 }
 
 export const Navigation: React.FC<NavigationProps> = ({ onNavigate }) => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState('portal');
-  const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [activeNum, setActiveNum] = useState('01');
+  const [isDarkSection, setIsDarkSection] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 40);
-
+      const scrollPos = window.scrollY + window.innerHeight * 0.4;
       const sectionElements = SECTIONS.map((s) => ({
         id: s.id,
+        num: s.num,
         el: document.getElementById(s.id),
       }));
 
-      const scrollPos = window.scrollY + window.innerHeight * 0.35;
       for (let i = sectionElements.length - 1; i >= 0; i--) {
         const item = sectionElements[i];
-        if (item.el) {
-          if (scrollPos >= item.el.offsetTop) {
-            setActiveSection(item.id);
-            break;
-          }
+        if (item.el && scrollPos >= item.el.offsetTop) {
+          setActiveNum(item.num);
+          // Check if dark section (movement: 02, stillness: 05)
+          setIsDarkSection(item.id === 'movement' || item.id === 'stillness');
+          break;
         }
       }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
+  const handleNavClick = (id: string) => {
+    setMenuOpen(false);
     if (onNavigate) {
-      onNavigate(href);
+      onNavigate(`#${id}`);
     } else {
-      const targetId = href.replace('#', '');
-      const el = document.getElementById(targetId);
-      el?.scrollIntoView({ behavior: 'smooth' });
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   };
 
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 flex justify-center px-4 sm:px-8 pointer-events-none ${
-          isScrolled ? 'pt-4 sm:pt-6' : 'pt-6 sm:pt-8'
+        className={`fixed top-0 left-0 w-full z-50 transition-colors duration-500 px-6 sm:px-12 py-6 sm:py-8 flex items-center justify-between pointer-events-none ${
+          isDarkSection ? 'text-[#F4F1EA]' : 'text-[#11110F]'
         }`}
       >
-        <div className="w-full max-w-6xl flex items-center justify-between pointer-events-auto">
-          {/* Left Brand */}
-          <a
-            href="#portal"
-            onClick={(e) => handleLinkClick(e, '#portal')}
-            data-cursor="home"
-            className="group flex items-center gap-2 px-4 py-2 rounded-full bg-[#050505]/70 border border-white/[0.08] backdrop-blur-md focus:outline-none transition-colors hover:border-[#00F0FF]/40"
-          >
-            <span className="w-1.5 h-1.5 rounded-full bg-[#00F0FF] animate-pulse" />
-            <span className="font-mono font-bold text-xs tracking-[0.25em] text-[#F5F5F0] group-hover:text-[#00F0FF] transition-colors">
-              LIMINAL
-            </span>
-          </a>
-
-          {/* Center Numbers: 01 02 03 04 05 */}
-          <nav className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#050505]/70 border border-white/[0.08] backdrop-blur-md shadow-2xl">
-            {SECTIONS.map((sec) => {
-              const isActive = activeSection === sec.id;
-              return (
-                <a
-                  key={sec.id}
-                  href={sec.href}
-                  onClick={(e) => handleLinkClick(e, sec.href)}
-                  data-cursor={sec.title}
-                  className={`relative px-3 py-1 text-xs font-mono tracking-widest transition-colors rounded-full ${
-                    isActive
-                      ? 'text-[#050505] font-bold'
-                      : 'text-[#858585] hover:text-[#F5F5F0]'
-                  }`}
-                >
-                  {isActive && (
-                    <span className="absolute inset-0 rounded-full bg-[#00F0FF] shadow-[0_0_12px_rgba(0,240,255,0.4)] -z-10" />
-                  )}
-                  {sec.number}
-                </a>
-              );
-            })}
-          </nav>
-
-          {/* Right Menu Trigger */}
+        {/* Top Left: ÉLAN */}
+        <div className="pointer-events-auto">
           <button
-            onClick={() => setIsMobileOpen(true)}
-            data-cursor="menu"
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#050505]/70 border border-white/[0.08] backdrop-blur-md hover:border-[#00F0FF]/40 transition-colors text-xs font-mono tracking-widest text-[#F5F5F0] focus:outline-none"
+            onClick={() => handleNavClick('hero')}
+            className="text-left group cursor-pointer"
           >
-            <List size={14} className="text-[#00F0FF]" />
+            <span className="font-serif text-2xl sm:text-3xl tracking-tight block">
+              ÉLAN
+            </span>
+          </button>
+        </div>
+
+        {/* Top Center: 01 — 05 */}
+        <div className="pointer-events-auto">
+          <div className="flex items-center space-x-2 text-[12px] sm:text-[13px] tracking-widest uppercase font-sans font-medium opacity-75">
+            <span className="tabular-nums font-semibold">{activeNum}</span>
+            <span className="opacity-40">—</span>
+            <span className="opacity-40">05</span>
+          </div>
+        </div>
+
+        {/* Top Right: MENU */}
+        <div className="pointer-events-auto">
+          <button
+            onClick={() => setMenuOpen(true)}
+            className="text-[12px] sm:text-[13px] uppercase tracking-widest font-sans font-medium hover:opacity-60 transition-opacity cursor-pointer flex items-center space-x-2 py-1 px-2 -mr-2"
+            aria-label="Open navigation menu"
+          >
             <span>MENU</span>
           </button>
         </div>
       </header>
 
-      {/* Mobile Drawer Navigation */}
-      <MobileMenu
-        isOpen={isMobileOpen}
-        onClose={() => setIsMobileOpen(false)}
-        sections={SECTIONS}
-        activeSection={activeSection}
-        onNavigate={(href) => {
-          const targetId = href.replace('#', '');
-          const el = document.getElementById(targetId);
-          el?.scrollIntoView({ behavior: 'smooth' });
-        }}
-      />
+      {/* Fullscreen Clean Editorial Menu Overlay */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed inset-0 z-[100] bg-[#151613] text-[#F4F1EA] flex flex-col justify-between p-8 sm:p-16 select-none"
+          >
+            {/* Top Bar of Menu */}
+            <div className="flex items-center justify-between w-full">
+              <span className="font-serif text-2xl tracking-tight">ÉLAN</span>
+              <button
+                onClick={() => setMenuOpen(false)}
+                className="text-[13px] tracking-widest uppercase font-sans font-medium text-[#928E85] hover:text-[#F4F1EA] transition-colors py-2 px-3 cursor-pointer"
+              >
+                CLOSE [×]
+              </button>
+            </div>
+
+            {/* Menu Links */}
+            <div className="max-w-3xl my-auto py-12">
+              <p className="text-[11px] tracking-widest uppercase font-sans text-[#77736B] mb-8">
+                AN EXPLORATION OF MOTION &amp; DEPTH
+              </p>
+              <nav className="flex flex-col space-y-4 sm:space-y-6">
+                {SECTIONS.map((sec) => (
+                  <button
+                    key={sec.id}
+                    onClick={() => handleNavClick(sec.id)}
+                    className="group text-left flex items-baseline space-x-4 sm:space-x-8 cursor-pointer"
+                  >
+                    <span className="text-sm font-sans text-[#928E85] group-hover:text-[#A65D45] transition-colors tabular-nums">
+                      {sec.num}
+                    </span>
+                    <span className="font-serif text-3xl sm:text-5xl md:text-6xl tracking-tight text-[#EDE9DF] group-hover:text-[#F4F1EA] group-hover:translate-x-3 transition-all duration-300">
+                      {sec.title}
+                    </span>
+                    <span className="hidden sm:inline-block text-xs font-sans text-[#77736B] group-hover:text-[#928E85] transition-colors">
+                      / {sec.subtitle}
+                    </span>
+                  </button>
+                ))}
+              </nav>
+            </div>
+
+            {/* Menu Footer */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between border-t border-[rgba(244,241,234,0.12)] pt-6 text-[12px] font-sans text-[#77736B]">
+              <span>ÉLAN — Digital Exhibition</span>
+              <span>Techfest IIT Bombay — 2026</span>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 };

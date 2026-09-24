@@ -8,12 +8,12 @@ import Cursor from './components/cursor/Cursor';
 import ScrollIndicator from './components/ui/ScrollIndicator';
 import OpeningSequence from './components/opening/OpeningSequence';
 
-import PortalScene from './scenes/PortalScene';
-import FragmentScene from './scenes/FragmentScene';
-import VoidScene from './scenes/VoidScene';
-import DescentScene from './scenes/DescentScene';
-import SignalScene from './scenes/SignalScene';
-import FinaleScene from './scenes/FinaleScene';
+import HeroScene from './scenes/HeroScene';
+import MovementScene from './scenes/MovementScene';
+import SpaceScene from './scenes/SpaceScene';
+import TypographicScene from './scenes/TypographicScene';
+import StillnessScene from './scenes/StillnessScene';
+import OutroScene from './scenes/OutroScene';
 import { useReducedMotion } from './hooks/useReducedMotion';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -28,10 +28,10 @@ export const App: React.FC = () => {
     if (prefersReducedMotion) return;
 
     const lenis = new Lenis({
-      duration: 1.25,
+      duration: 1.3,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
-      touchMultiplier: 1.6,
+      touchMultiplier: 1.5,
     });
 
     lenis.on('scroll', ScrollTrigger.update);
@@ -64,7 +64,7 @@ export const App: React.FC = () => {
     if (element) {
       if (lenisRef.current) {
         lenisRef.current.scrollTo(element, {
-          duration: 1.5,
+          duration: 1.6,
           easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         });
       } else {
@@ -76,7 +76,7 @@ export const App: React.FC = () => {
   const handleScrollToTop = () => {
     if (lenisRef.current) {
       lenisRef.current.scrollTo(0, {
-        duration: 2.2,
+        duration: 2.0,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       });
     } else {
@@ -85,8 +85,8 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#050505] text-[#F5F5F0] selection:bg-[#00F0FF] selection:text-black">
-      {/* Film grain noise overlay */}
+    <div className="relative min-h-screen bg-[#F4F1EA] text-[#11110F] selection:bg-[#A65D45] selection:text-[#F4F1EA]">
+      {/* Subtle organic film grain texture overlay */}
       <div className="grain-overlay" />
 
       {/* Opening sequence */}
@@ -97,31 +97,31 @@ export const App: React.FC = () => {
       {/* Interactive custom cursor */}
       <Cursor />
 
-      {/* Vertical right scroll indicator */}
+      {/* Subtle hairline scroll progress indicator */}
       <ScrollIndicator />
 
-      {/* Floating minimal navigation */}
+      {/* Floating editorial navigation */}
       <Navigation onNavigate={handleNavigate} />
 
-      {/* Continuous Liminal Scenes */}
+      {/* Continuous ÉLAN Exhibition Scenes */}
       <main id="main-content" className="relative z-10 w-full overflow-hidden">
-        {/* Scene 01: Hero - The Portal (8 Parallax Layers) */}
-        <PortalScene onExplore={() => handleNavigate('#fragments')} />
+        {/* Section 01: Hero - Between Worlds (6 Parallax Layers) */}
+        <HeroScene onEnter={() => handleNavigate('#movement')} />
 
-        {/* Scene 02: Floating Fragments (3D Parallax Field of Interactive Artifacts) */}
-        <FragmentScene />
+        {/* Section 02: Movement (Monolithic Brutalist Architecture Parallax) */}
+        <MovementScene />
 
-        {/* Scene 03: The Void (Pinned ScrollTrigger Differential Typography Parallax) */}
-        <VoidScene />
+        {/* Section 03: Space (Full-width Architectural Image & Clipping Parallax) */}
+        <SpaceScene />
 
-        {/* Scene 04: The Descent (Vertical Camera Descent with 6 Crossing Strata) */}
-        <DescentScene />
+        {/* Section 04: Form (Typographic Parallax with 4 Independent Coordinates) */}
+        <TypographicScene />
 
-        {/* Scene 05: Signal (Discovered Tactile Interface Panel) */}
-        <SignalScene />
+        {/* Section 05: Stillness (Suspended Kinetic Sculpture & Quiet Depth) */}
+        <StillnessScene />
 
-        {/* Epilogue: Collapsing Inward & Minimal Footer */}
-        <FinaleScene onRestart={handleScrollToTop} />
+        {/* Outro: See you on the other side & Restart CTA */}
+        <OutroScene onRestart={handleScrollToTop} />
       </main>
     </div>
   );
